@@ -6,9 +6,9 @@ source 'https://rubygems.org'
 gemspec
 
 group :development, :test do
-  gem 'rake'
   gem 'guard'
   gem 'guard-bundler'
   gem 'guard-rspec'
+  gem 'rake'
   gem 'rb-fsevent'
 end
