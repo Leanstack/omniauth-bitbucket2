@@ -1,32 +1,34 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe OmniAuth::Strategies::Bitbucket do
-  let(:access_token) { double('AccessToken', :options => {}) }
+  let(:access_token) { double('AccessToken', options: {}) }
   let(:parsed_response) { double('ParsedResponse') }
-  let(:response) { double('Response', :parsed => parsed_response) }
+  let(:response) { double('Response', parsed: parsed_response) }
 
   subject do
     OmniAuth::Strategies::Bitbucket.new({})
   end
 
   before(:each) do
-    subject.stub!(:access_token).and_return(access_token)
+    allow(subject).to receive(:access_token).and_return(access_token)
   end
 
-  context "client options" do
-    it 'should have correct site' do
-      subject.options.client_options.site.should eq("https://api.bitbucket.org/2.0")
+  context 'client options' do
+    it 'has the correct site' do
+      expect(subject.options.client_options.site).to eq('https://api.bitbucket.org/2.0')
     end
 
-    it 'should have correct authorize url' do
-      subject.options.client_options.authorize_url.should eq('https://bitbucket.org/site/oauth2/authorize')
+    it 'has the correct authorize url' do
+      expect(subject.options.client_options.authorize_url).to eq('https://bitbucket.org/site/oauth2/authorize')
     end
 
-    it 'should have correct token url' do
-      subject.options.client_options.token_url.should eq('https://bitbucket.org/site/oauth2/access_token')
+    it 'has the correct token url' do
+      expect(subject.options.client_options.token_url).to eq('https://bitbucket.org/site/oauth2/access_token')
     end
 
-    it 'should have the correct callback path' do
+    it 'has the correct callback path' do
       expect(subject.callback_path).to eq('/auth/bitbucket/callback')
     end
   end
