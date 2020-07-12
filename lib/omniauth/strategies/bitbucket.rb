@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 require 'omniauth-oauth2'
 
 module OmniAuth
   module Strategies
-    class Bitbucket < OmniAuth::Strategies::OAuth2
+    class Bitbucket < OmniAuth::Strategies::OAuth2 # rubocop:disable Style/Documentation
       option :name, 'bitbucket'
 
       option :client_options, {
-        :site => 'https://api.bitbucket.org/2.0',
-        :authorize_url => 'https://bitbucket.org/site/oauth2/authorize',
-        :token_url => 'https://bitbucket.org/site/oauth2/access_token'
+        site: 'https://api.bitbucket.org/2.0',
+        authorize_url: 'https://bitbucket.org/site/oauth2/authorize',
+        token_url: 'https://bitbucket.org/site/oauth2/access_token'
       }
 
       def request_phase
@@ -18,9 +20,7 @@ module OmniAuth
       def authorize_params
         super.tap do |params|
           %w[client_options].each do |v|
-            if request.params[v]
-              params[v.to_sym] = request.params[v]
-            end
+            params[v.to_sym] = request.params[v] if request.params[v]
           end
         end
       end
@@ -36,12 +36,12 @@ module OmniAuth
           'nickname' => raw_info['username'],
           'email' => primary_email,
           'name' => raw_info['display_name'],
-          'image' => raw_info['links']['avatar']['href'],
+          'image' => raw_info['links']['avatar']['href']
         }
       end
 
       extra do
-        {:raw_info => raw_info, :all_emails => emails}
+        { raw_info: raw_info, all_emails: emails }
       end
 
       def raw_info
@@ -49,7 +49,7 @@ module OmniAuth
       end
 
       def primary_email
-        primary = emails.find{ |i| i['is_primary'] && i['is_confirmed'] }
+        primary = emails.find { |i| i['is_primary'] && i['is_confirmed'] }
         primary && primary['email'] || nil
       end
 
