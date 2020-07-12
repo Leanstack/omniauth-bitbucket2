@@ -12,23 +12,23 @@ describe OmniAuth::Strategies::Bitbucket do
   end
 
   before(:each) do
-    subject.stub(:access_token).and_return(access_token)
+    allow(subject).to receive(:access_token).and_return(access_token)
   end
 
   context 'client options' do
-    it 'should have correct site' do
-      subject.options.client_options.site.should eq('https://api.bitbucket.org/2.0')
+    it 'has the correct site' do
+      expect(subject.options.client_options.site).to eq('https://api.bitbucket.org/2.0')
     end
 
-    it 'should have correct authorize url' do
-      subject.options.client_options.authorize_url.should eq('https://bitbucket.org/site/oauth2/authorize')
+    it 'has the correct authorize url' do
+      expect(subject.options.client_options.authorize_url).to eq('https://bitbucket.org/site/oauth2/authorize')
     end
 
-    it 'should have correct token url' do
-      subject.options.client_options.token_url.should eq('https://bitbucket.org/site/oauth2/access_token')
+    it 'has the correct token url' do
+      expect(subject.options.client_options.token_url).to eq('https://bitbucket.org/site/oauth2/access_token')
     end
 
-    it 'should have the correct callback path' do
+    it 'has the correct callback path' do
       expect(subject.callback_path).to eq('/auth/bitbucket/callback')
     end
   end
